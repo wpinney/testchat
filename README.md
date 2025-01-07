@@ -1,76 +1,100 @@
-# Basic Chat Application
+# Git-Backed Messaging Application
 
-A simple real-time chat application that allows users to communicate with each other.
+A web-based messaging application that uses Git as a backend storage system. Messages are stored in a SQLite database and synchronized with GitHub, providing version control and backup for all conversations.
 
 ## Features
 
-- Real-time messaging
-- Simple and intuitive user interface
-- Support for multiple users
-- Text-based communication
+- Real-time messaging interface
+- SQLite database for local message storage
+- Git integration for message backup and version control
+- GitHub API integration for remote synchronization
+- Simple and lightweight design (no frameworks)
+- Secure authentication using GitHub tokens
 
-## Prerequisites
+## Tech Stack
 
-- Python 3.8 or higher
-- Flask
-- Flask-SocketIO
-- HTML/CSS/JavaScript knowledge (for frontend development)
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone <your-repository-url>
-cd testchat
-```
-
-2. Install the required dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-## GitHub Token Setup
-
-1. Copy the `.env.template` file to create a new `.env` file:
-```bash
-cp .env.template .env
-```
-
-2. Edit the `.env` file and replace `your_github_token_here` with your actual GitHub token.
-
-3. To create a new GitHub token:
-   - Go to GitHub Settings > Developer Settings > Personal Access Tokens
-   - Generate a new token with the necessary repository permissions
-   - Copy the token and paste it in your `.env` file
-
-Note: Never commit your `.env` file or share your GitHub token.
-
-## Usage
-
-1. Start the server:
-```bash
-python app.py
-```
-
-2. Open your web browser and navigate to `http://localhost:5000`
-
-3. Start chatting!
+- Backend: Python (with built-in libraries)
+- Database: SQLite3
+- Frontend: HTML5, CSS3, JavaScript (vanilla)
+- Version Control: Git
+- APIs: GitHub REST API
 
 ## Project Structure
 
 ```
 testchat/
 ├── README.md
-├── app.py
-├── requirements.txt
+├── .env                  # Environment variables (GitHub token)
+├── .gitignore           # Git ignore file
+├── app.py               # Main Python application
+├── database/
+│   ├── schema.sql       # Database schema
+│   └── db.sqlite        # SQLite database file
 ├── static/
 │   ├── css/
-│   │   └── style.css
+│   │   └── style.css    # Application styles
 │   └── js/
-│       └── main.js
+│       └── main.js      # Frontend JavaScript
 └── templates/
-    └── index.html
+    └── index.html       # Main HTML template
 ```
+
+## Prerequisites
+
+- Python 3.8 or higher
+- Git installed and configured
+- GitHub account with personal access token
+- SQLite3
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/wpinney/testchat.git
+cd testchat
+```
+
+2. Create and configure your `.env` file:
+```bash
+GITHUB_TOKEN=your_github_token
+```
+
+3. Initialize the database:
+```bash
+python init_db.py
+```
+
+4. Start the application:
+```bash
+python app.py
+```
+
+## Development Roadmap
+
+1. Basic Setup
+   - Project structure
+   - Environment configuration
+   - Git integration
+
+2. Database Layer
+   - SQLite schema design
+   - Database initialization
+   - CRUD operations
+
+3. Backend Development
+   - Python server setup
+   - GitHub API integration
+   - Message synchronization
+
+4. Frontend Development
+   - HTML structure
+   - CSS styling
+   - JavaScript functionality
+
+5. Integration
+   - Connect frontend with backend
+   - Implement real-time updates
+   - Add Git synchronization
 
 ## Contributing
 
@@ -78,7 +102,7 @@ Feel free to submit issues and enhancement requests.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## Last Updated
 
