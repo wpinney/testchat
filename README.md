@@ -29,6 +29,22 @@ cd testchat
 pip install -r requirements.txt
 ```
 
+## GitHub Token Setup
+
+1. Copy the `.env.template` file to create a new `.env` file:
+```bash
+cp .env.template .env
+```
+
+2. Edit the `.env` file and replace `your_github_token_here` with your actual GitHub token.
+
+3. To create a new GitHub token:
+   - Go to GitHub Settings > Developer Settings > Personal Access Tokens
+   - Generate a new token with the necessary repository permissions
+   - Copy the token and paste it in your `.env` file
+
+Note: Never commit your `.env` file or share your GitHub token.
+
 ## Usage
 
 1. Start the server:
