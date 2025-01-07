@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application Test</title>
+</head>
+<body>
+    <h1>Chat Application Test Page</h1>
+    <p>If you see this message, the server is working correctly!</p>
+    
+    <div id="test-area">
+        <h2>API Test</h2>
+        <button onclick="testMessageAPI()">Test Message API</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testMessageAPI() {
+            const resultDiv = document.getElementById('result');
+            try {
+                const response = await fetch('/api/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        content: 'Test message',
+                        sender: 'Test User'
+                    })
+                });
+                const data = await response.json();
+                resultDiv.innerHTML = `API Response: ${JSON.stringify(data)}`;
+            } catch (error) {
+                resultDiv.innerHTML = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
