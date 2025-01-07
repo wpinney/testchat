@@ -130,11 +130,24 @@ class GitManager:
         """Get the history of messages from the repository"""
         messages = []
         try:
-            for file in self.messages_dir.glob('message_*.json'):
-                with open(file, 'r') as f:
-                    message_data = json.load(f)
-                    messages.append(message_data)
+            # Ensure the messages directory exists
+            self.messages_dir.mkdir(exist_ok=True)
+            
+            # Get all message files
+            message_files = sorted(self.messages_dir.glob('message_*.json'))
+            
+            for file in message_files:
+                try:
+                    with open(file, 'r') as f:
+                        message_data = json.load(f)
+                        messages.append(message_data)
+                except (json.JSONDecodeError, IOError) as e:
+                    print(f"Error reading message file {file}: {e}")
+                    continue
+                    
+            # Sort messages by timestamp
             return sorted(messages, key=lambda x: x['timestamp'])
+            
         except Exception as e:
             print(f"Error getting message history: {e}")
             return []

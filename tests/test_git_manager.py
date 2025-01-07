@@ -6,6 +6,7 @@ import shutil
 from datetime import datetime
 from pathlib import Path
 import sys
+import time
 
 # Add parent directory to path to import GitManager
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -63,9 +64,10 @@ class TestGitManager(unittest.TestCase):
             ("Message 3", "User1")
         ]
         
-        # Add messages
+        # Add messages with a small delay between them
         for content, sender in messages:
             self.git_manager.create_message_file(content, sender)
+            time.sleep(0.1)  # Add small delay to ensure different timestamps
         
         # Get history
         history = self.git_manager.get_message_history()
@@ -73,6 +75,10 @@ class TestGitManager(unittest.TestCase):
         # Verify history
         self.assertEqual(len(history), len(messages))
         self.assertTrue(all('content' in msg and 'sender' in msg for msg in history))
+        
+        # Verify messages are in chronological order
+        timestamps = [msg['timestamp'] for msg in history]
+        self.assertEqual(timestamps, sorted(timestamps))
 
     def test_push_message(self):
         """Test pushing a message to GitHub"""
