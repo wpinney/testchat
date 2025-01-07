@@ -23,14 +23,13 @@ class TestGitManager(unittest.TestCase):
             shutil.rmtree(self.git_manager.messages_dir)
         self.git_manager.messages_dir.mkdir(exist_ok=True)
 
-    def tearDown(self):
-        """Clean up after each test"""
-        # Clean up messages directory
-        if self.git_manager.messages_dir.exists():
-            shutil.rmtree(self.git_manager.messages_dir)
-
     def test_init(self):
         """Test GitManager initialization"""
+        # Clean up before test
+        if self.git_manager.messages_dir.exists():
+            shutil.rmtree(self.git_manager.messages_dir)
+        self.git_manager.messages_dir.mkdir(exist_ok=True)
+            
         self.assertIsNotNone(self.git_manager)
         self.assertEqual(self.git_manager.repo_url, self.test_repo_url)
         self.assertTrue(self.git_manager.github_token)
@@ -38,6 +37,11 @@ class TestGitManager(unittest.TestCase):
 
     def test_create_message_file(self):
         """Test message file creation"""
+        # Clean up before test
+        if self.git_manager.messages_dir.exists():
+            shutil.rmtree(self.git_manager.messages_dir)
+        self.git_manager.messages_dir.mkdir(exist_ok=True)
+        
         test_content = "Test message"
         test_sender = "TestUser"
         
@@ -57,6 +61,11 @@ class TestGitManager(unittest.TestCase):
 
     def test_message_history(self):
         """Test message history retrieval"""
+        # Clean up before test
+        if self.git_manager.messages_dir.exists():
+            shutil.rmtree(self.git_manager.messages_dir)
+        self.git_manager.messages_dir.mkdir(exist_ok=True)
+        
         # Create multiple test messages
         messages = [
             ("Message 1", "User1"),
@@ -64,13 +73,23 @@ class TestGitManager(unittest.TestCase):
             ("Message 3", "User1")
         ]
         
+        created_files = []
         # Add messages with a small delay between them
         for content, sender in messages:
-            self.git_manager.create_message_file(content, sender)
+            filepath = self.git_manager.create_message_file(content, sender)
+            created_files.append(filepath)
             time.sleep(0.1)  # Add small delay to ensure different timestamps
+        
+        print("\nCreated message files:", created_files)
+        
+        # List files in messages directory
+        print("\nFiles in messages directory:")
+        for file in self.git_manager.messages_dir.glob('message_*.json'):
+            print(f"- {file}")
         
         # Get history
         history = self.git_manager.get_message_history()
+        print("\nMessage history:", history)
         
         # Verify history
         self.assertEqual(len(history), len(messages))
@@ -82,6 +101,11 @@ class TestGitManager(unittest.TestCase):
 
     def test_push_message(self):
         """Test pushing a message to GitHub"""
+        # Clean up before test
+        if self.git_manager.messages_dir.exists():
+            shutil.rmtree(self.git_manager.messages_dir)
+        self.git_manager.messages_dir.mkdir(exist_ok=True)
+        
         # Create a test message
         test_content = "Test push message"
         test_sender = "TestUser"

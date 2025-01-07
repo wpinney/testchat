@@ -56,15 +56,18 @@ class GitManager:
         """Create a new file containing the message"""
         try:
             # Create timestamp and filename
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f"message_{timestamp}.json"
+            timestamp = datetime.now()
+            base_filename = timestamp.strftime('%Y%m%d_%H%M%S')
+            
+            # Add microseconds to ensure unique filenames
+            filename = f"message_{base_filename}_{timestamp.microsecond:06d}.json"
             filepath = self.messages_dir / filename
 
             # Create message data
             message_data = {
                 'content': content,
                 'sender': sender,
-                'timestamp': datetime.now().isoformat()
+                'timestamp': timestamp.isoformat()
             }
 
             # Write message to file
